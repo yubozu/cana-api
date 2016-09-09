@@ -20,11 +20,12 @@ connect_string['port'] = int(connect_string['port'])
 
 db = Database(connect_string)
 
+# TODO: mkdir uploads.
 UPLOAD_FOLDER = 'uploads'
 
 @app.route('/cana-api/')
 def index():
-    return 'Flask is running!'
+    return jsonify('Flask is running!')
 
 @app.route('/cana-api/upload', methods=['GET', 'POST'])
 def upload_files():

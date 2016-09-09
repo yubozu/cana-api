@@ -25,7 +25,7 @@ UPLOAD_FOLDER = 'uploads'
 
 @app.route('/cana-api/')
 def index():
-    return jsonify('Flask is running!')
+    return jsonify(status='Flask is running!'), 200
 
 @app.route('/cana-api/upload', methods=['GET', 'POST'])
 def upload_files():
@@ -36,7 +36,7 @@ def upload_files():
 			print(os.path.join(UPLOAD_FOLDER, filename))
 			file.save(os.path.join(UPLOAD_FOLDER, filename))
 			return jsonify(filename)
-		return jsonify('error'), 500
+		return jsonify(status='error'), 500
 	# show upload page.
 	return """
     <!doctype html>

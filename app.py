@@ -31,7 +31,7 @@ def index():
 def upload_files():
 	if request.method == 'POST':
 		file = request.files['data']
-		history_id = request.data['id']
+		history_id = request.form['id']
 		if file and allowed_file(file.filename):
 			filename = secure_filename(file.filename)
 			print(os.path.join(UPLOAD_FOLDER, filename))

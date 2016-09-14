@@ -31,11 +31,12 @@ def index():
 def upload_files():
 	if request.method == 'POST':
 		file = request.files['data']
+		id = request.data['id']
 		if file and allowed_file(file.filename):
 			filename = secure_filename(file.filename)
 			print(os.path.join(UPLOAD_FOLDER, filename))
 			file.save(os.path.join(UPLOAD_FOLDER, filename))
-			return jsonify(filename)
+			return jsonify("filename"=filename, "id"=id)
 		return jsonify(status='error'), 500
 	# show upload page.
 	return """

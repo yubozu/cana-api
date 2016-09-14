@@ -31,13 +31,13 @@ def index():
 def upload_files():
 	if request.method == 'POST':
 		file = request.files['data']
-		id = request.data['id']
+		history_id = request.data['id']
 		if file and allowed_file(file.filename):
 			filename = secure_filename(file.filename)
 			print(os.path.join(UPLOAD_FOLDER, filename))
 			file.save(os.path.join(UPLOAD_FOLDER, filename))
-			return jsonify("filename"=filename, "id"=id)
-		return jsonify(status='error'), 500
+			return jsonify("filename"=filename, "id"=history_id)
+		return jsonify(status='error', "id"=history_id), 500
 	# show upload page.
 	return """
     <!doctype html>

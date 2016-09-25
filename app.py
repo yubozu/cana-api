@@ -47,7 +47,7 @@ def upload_files():
             print(os.path.join(UPLOAD_FOLDER, filename))
             file.save(os.path.join(UPLOAD_FOLDER, filename))
 
-            return jsonify(filename=filename, id=history.id)
+            return jsonify(filename=filename)
         return jsonify(status='error'), 500
     # show upload page.
     return """

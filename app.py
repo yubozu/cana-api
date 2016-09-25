@@ -46,9 +46,9 @@ def upload_files():
             filename = secure_filename(file.filename)
             print(os.path.join(UPLOAD_FOLDER, filename))
             file.save(os.path.join(UPLOAD_FOLDER, filename))
-            
-            return jsonify(filename=filename, id=history_id)
-        return jsonify(status='error', id=history_id), 500
+
+            return jsonify(filename=filename, id=history.id)
+        return jsonify(status='error'), 500
     # show upload page.
     return """
     <!doctype html>

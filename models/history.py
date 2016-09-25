@@ -4,23 +4,23 @@ from utils.dbhelper import DBHelper
 class History:
 
 	def __init__(self, form, filename):
-		self.id = form["id"]
-		self.history_type = form["type"]
+		self.history_type = form.get("type")
 		self.filename = filename
-		self.user_uuid = form["uuid"]
-		self.create_time = form["date"]
+		self.user_uuid = form.get("uuid")
+		self.create_time = form.get("date")
 		self.db = DBHelper()
 
 	def insert(self):
 		scripts = """
-			INSERT INTO history (`id`, `type`, `filename`, `uuid`, `create_time`) VALUES (%s, %s, %s, %s, %s)
+			INSERT INTO history (`type`, `filename`, `uuid`, `create_time`) VALUES (%s, %s, %s, %s, %s)
 		"""
 
 		connect = self.db.get_connection()
 		cursor = connect.cursor();
-		cursor.execute(scripts, (self.id, self.history_type, self,filename, self.user_uuid, self.create_time))
+		cursor.execute(scripts, (self.history_type, self.filename, self.user_uuid, self.create_time))
 
-
-
+		cursor.commit()
+		cursor.close()
+		connect.close()
 
 

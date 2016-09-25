@@ -11,7 +11,7 @@ class History:
 		self.create_time = form["date"]
 		self.db = DBHelper()
 
-	def insert_history(history):
+	def insert(self):
 		scripts = """
 			INSERT INTO history (`id`, `type`, `filename`, `uuid`, `create_time`) VALUES (%s, %s, %s, %s, %s)
 		"""
@@ -19,7 +19,7 @@ class History:
 		connect = self.db.get_connection()
 		cursor = connect.cursor();
 		cursor.execute(scripts, (self.id, self.history_type, self,filename, self.user_uuid, self.create_time))
-		
+
 
 
 

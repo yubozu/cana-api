@@ -39,10 +39,14 @@ def upload_files():
         file = request.files['data']
         # history_id = request.form['id']
         if file and allowed_file(file.filename):
+
             history = History(request.form, file.filename)
+            history.insert()
+
             filename = secure_filename(file.filename)
             print(os.path.join(UPLOAD_FOLDER, filename))
             file.save(os.path.join(UPLOAD_FOLDER, filename))
+            
             return jsonify(filename=filename, id=history_id)
         return jsonify(status='error', id=history_id), 500
     # show upload page.

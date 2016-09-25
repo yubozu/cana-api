@@ -30,3 +30,7 @@ class DBHelper:
 	    cursor = connection.cursor();
 
 	    cursor.execute(script)
+	    connection.commit()
+	    
+	    cursor.close()
+	    connection.close()

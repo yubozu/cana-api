@@ -12,14 +12,14 @@ class History:
 
 	def insert(self):
 		scripts = """
-			INSERT INTO history (`type`, `filename`, `uuid`, `create_time`) VALUES (%s, %s, %s, %s, %s)
+			INSERT INTO history (`type`, `filename`, `uuid`, `create_time`) VALUES (%s, %s, %s, %s)
 		"""
 
 		connect = self.db.get_connection()
 		cursor = connect.cursor();
 		cursor.execute(scripts, (self.history_type, self.filename, self.user_uuid, self.create_time))
 
-		cursor.commit()
+		connect.commit()
 		cursor.close()
 		connect.close()
 

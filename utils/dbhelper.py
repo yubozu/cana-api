@@ -31,6 +31,6 @@ class DBHelper:
 
 	    cursor.execute(script)
 	    connection.commit()
-	    
+
 	    cursor.close()
 	    connection.close()

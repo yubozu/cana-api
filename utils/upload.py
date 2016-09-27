@@ -1,4 +1,4 @@
-ALLOWED_EXTENSIONS = set(['txt', "md"])
+ALLOWED_EXTENSIONS = set(['txt', "md", "mp4", "3gp"])
 
 def allowed_file(filename):
     return '.' in filename and \

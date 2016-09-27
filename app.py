@@ -40,7 +40,7 @@ def upload_files():
         # history_id = request.form['id']
         if file and allowed_file(file.filename):
 
-            history = History(request.form, file.filename)
+            history = History(request.form.to_dict(), file.filename)
             history.insert()
 
             filename = secure_filename(file.filename)

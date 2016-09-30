@@ -4,9 +4,10 @@ import configparser
 import pymysql
 
 from flask import Flask, jsonify, request, redirect, url_for
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 
 from models.history import History
+from models.user import User
 from utils.dbhelper import DBHelper
 from utils.upload import allowed_file, get_allowed_extensions
 
@@ -23,15 +24,18 @@ connect_string['port'] = int(connect_string['port'])
 
 # TODO: mkdir uploads.
 UPLOAD_FOLDER = 'uploads'
-dbhelper = DBHelper()
+database_helper = DBHelper()
+
 
 @app.before_request
 def prepare():
-    dbhelper.prepare_database()
+    database_helper.prepare_database()
+
 
 @app.route('/cana-api/')
 def index():
     return jsonify(status='Flask is running!'), 200
+
 
 @app.route('/cana-api/upload', methods=['GET', 'POST'])
 def upload_files():
@@ -42,11 +46,14 @@ def upload_files():
 
             history = History(request.form.to_dict(), file.filename)
             history.insert()
+            user = User(request.form.to_dict())
+            user.insert()
 
             filename = secure_filename(file.filename)
             print(os.path.join(UPLOAD_FOLDER, filename))
             file.save(os.path.join(UPLOAD_FOLDER, filename))
 
+            print(jsonify(filename=filename))
             return jsonify(filename=filename)
         return jsonify(status='error'), 500
     # show upload page.

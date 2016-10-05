@@ -28,3 +28,19 @@ class History:
         connect.commit()
         cursor.close()
         connect.close()
+
+    @staticmethod
+    def get_all_histories():
+        scripts = """
+            select * from history order by id;
+        """
+
+        db = DBHelper()
+        connect = db.get_connection()
+        cursor = connect.cursor()
+        cursor.execute(scripts)
+
+        result = cursor.fetchall()
+        print(result)
+
+        return result

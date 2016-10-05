@@ -3,7 +3,7 @@ import configparser
 
 import pymysql
 
-from flask import Flask, jsonify, request, redirect, url_for
+from flask import Flask, jsonify, request, redirect, url_for, render_template, send_from_directory
 from werkzeug.utils import secure_filename
 
 from models.history import History
@@ -57,16 +57,16 @@ def upload_files():
             return jsonify(filename=filename)
         return jsonify(status='error'), 500
     # show upload page.
-    return """
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form action="/cana-api/upload" method=post enctype=multipart/form-data>
-      <p><input type=file name=data>
-         <input type=submit value=Upload>
-    </form>
-    <p>%s</p>
-    """ % "<br>".join(os.listdir(UPLOAD_FOLDER))
+    return render_template('upload.html', get_histories=get_histories)
+
+
+def get_histories():
+    return History.get_all_histories()
+
+
+@app.route('/cana-api/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)

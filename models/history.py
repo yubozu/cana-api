@@ -32,7 +32,7 @@ class History:
     @staticmethod
     def get_all_histories():
         scripts = """
-            select * from history order by id;
+           SELECT * FROM history LEFT JOIN user ON history.uuid = user.uuid;
         """
 
         db = DBHelper()

@@ -14,16 +14,21 @@ class User:
         self.db = DBHelper()
 
     def insert(self):
+        # INSERT INTO AggregatedData (datenum,Timestamp)
+        # VALUES ("734152.979166667","2010-01-14 23:30:00.000")
+        # ON DUPLICATE KEY UPDATE
+        #   Timestamp=VALUES(Timestamp)
         scripts = """
             INSERT INTO user (`name`, `uuid`, `gender`, `age`, `clinical_id`, `study_id`, `identification_number`)
-            SELECT * FROM ( SELECT %s, %s, %s, %s, %s, %s, %s) AS tmp WHERE
-            NOT EXISTS ( SELECT `uuid` FROM user WHERE uuid = %s) LIMIT 1;
+            VALUES (%s, %s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE name=%s, gender=%s, age=%s, clinical_id=%s,
+            study_id=%s, identification_number=%s;
         """
 
         connect = self.db.get_connection()
         cursor = connect.cursor()
         cursor.execute(scripts, (self.name, self.uuid, self.gender, self.age, self.clinical_id, self.study_id,
-                                 self.identification_number, self.uuid))
+                                 self.identification_number, self.name, self.gender, self.age, self.clinical_id,
+                                 self.study_id, self.identification_number))
 
         connect.commit()
         cursor.close()

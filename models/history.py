@@ -10,8 +10,8 @@ class History:
         self.create_time = form.get("date")
         self.rating = form.get("rating")
         self.doctor = form.get("doctor")
-        self.clinical_status = form.get("clinical_status")
-        self.pd_medicine = form.get("pd_medicine")
+        self.clinical_status = form.get("clinical_status") == "true"
+        self.pd_medicine = form.get("pd_medicine") == "true"
         self.dopamine = form.get("dopamine")
         self.db = DBHelper()
         print(form)
@@ -20,15 +20,15 @@ class History:
         scripts = """
             INSERT INTO history (`type`, `filename`, `uuid`, `create_time`, `rating`, `doctor`,
             `clinical_status`, `pd_medicine`, `dopamine`)
-            SELECT * FROM ( SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s) AS tmp WHERE NOT EXISTS(
-            SELECT `filename` FROM history WHERE filename = %s) LIMIT 1;
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE type = %s;
         """
 
         connect = self.db.get_connection()
         cursor = connect.cursor()
+        print(scripts)
         cursor.execute(scripts, (self.history_type, self.filename, self.user_uuid,
                                  self.create_time, self.rating, self.doctor, self.clinical_status, self.pd_medicine,
-                                 self.dopamine, self.filename))
+                                 self.dopamine, self.history_type))
 
         connect.commit()
         cursor.close()

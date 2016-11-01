@@ -25,7 +25,10 @@ class DBHelper:
                         `uuid` VARCHAR(50) NOT NULL,
                         `create_time` VARCHAR(50) NOT NULL,
                         `rating` INT NOT NULL,
-                        `doctor` VARCHAR(50) NOT NULL
+                        `doctor` VARCHAR(50) NOT NULL,
+                        `clinical_status` INT NOT NULL,
+                        `pd_medicine` INT NOT NULL,
+                        `dopamine` INT NOT NULL
                     ) DEFAULT CHARACTER SET utf8
                     DEFAULT COLLATE utf8_general_ci;""",
                    """CREATE TABLE IF NOT EXISTS `user`
@@ -34,7 +37,10 @@ class DBHelper:
                         `name` VARCHAR(20) NOT NULL,
                         `uuid` VARCHAR(50) UNIQUE NOT NULL,
                         `age` INT NOT NULL,
-                        `gender` INT NOT NULL
+                        `gender` INT NOT NULL,
+                        `clinical_id` VARCHAR(20) NOT NULL,
+                        `study_id` VARCHAR(20) NOT NULL,
+                        `identification_number` VARCHAR(20)
                     )DEFAULT CHARACTER SET utf8
                     DEFAULT COLLATE utf8_general_ci;"""]
 

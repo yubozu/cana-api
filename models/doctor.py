@@ -10,7 +10,7 @@ class Doctor:
     def user(doctor_id):
 
         scripts = """
-               SELECT * FROM history WHERE doctor IN (SELECT name FROM doctor WHERE id = %d)
+               SELECT * FROM history WHERE doctor IN (SELECT doctor FROM history WHERE id = %d)
         """ % doctor_id
         db = DBHelper()
         connect = db.get_connection()
@@ -26,7 +26,7 @@ class Doctor:
     def get_all_doctor():
 
         scripts = """
-        SELECT * FROM doctor WHERE name IN (SELECT DISTINCT name FROM doctor)    ;
+        SELECT MIN(id), group_concat( DISTINCT doctor ) from history GROUP BY doctor  ;
         """
 
         db = DBHelper()

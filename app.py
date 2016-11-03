@@ -41,6 +41,11 @@ def index():
     return jsonify(status='Flask is running!'), 200
 
 
+@app.route('/cana-api/test')
+def test_css():
+    return render_template('test.html')
+
+
 @app.route('/cana-api/upload', methods=['GET', 'POST'])
 def upload_files():
     if request.method == 'POST':
@@ -66,7 +71,6 @@ def upload_files():
 
 @app.route('/cana-api/doctor/')
 def doctors():
-
     return render_template('doctor.html', get_doctor=get_doctor())
 
 
@@ -78,8 +82,8 @@ def get_doctor():
     return Doctor.get_all_doctor()
 
 
-def doctor_result(doctor):
-    return Doctor.user(doctor)
+def doctor_result(doctor_id):
+    return Doctor.user(doctor_id)
 
 
 @app.route('/cana-api/doctor/<doctor_id>')

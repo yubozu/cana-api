@@ -41,11 +41,6 @@ def index():
     return jsonify(status='Flask is running!'), 200
 
 
-@app.route('/cana-api/test')
-def test_css():
-    return render_template('test.html')
-
-
 @app.route('/cana-api/upload', methods=['GET', 'POST'])
 def upload_files():
     if request.method == 'POST':

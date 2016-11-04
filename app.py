@@ -1,11 +1,15 @@
 import os
-import configparser
+try:
+    import configparser
+except ImportError:
+    import ConfigParser as configparser
 
 import pymysql
 
 from flask import Flask, jsonify, request, redirect, url_for, render_template, send_from_directory
 from werkzeug.utils import secure_filename
 
+from models.doctor import Doctor
 from models.history import History
 from models.user import User
 from utils.dbhelper import DBHelper
@@ -57,11 +61,29 @@ def upload_files():
             return jsonify(filename=filename)
         return jsonify(status='error'), 500
     # show upload page.
-    return render_template('upload.html', get_histories=get_histories)
+    return render_template('upload.html', get_histories=get_histories())
+
+
+@app.route('/cana-api/doctor/')
+def doctors():
+    return render_template('doctor.html', get_doctor=get_doctor())
 
 
 def get_histories():
     return History.get_all_histories()
+
+
+def get_doctor():
+    return Doctor.get_all_doctor()
+
+
+def doctor_result(doctor_id):
+    return Doctor.user(doctor_id)
+
+
+@app.route('/cana-api/doctor/<doctor_id>')
+def doctor_user(doctor_id):
+    return render_template('upload.html', get_histories=doctor_result(int(doctor_id)))
 
 
 @app.route('/cana-api/uploads/<filename>')
